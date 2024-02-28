@@ -1,0 +1,31 @@
+.outter{
+    margin-top: 250px;
+    margin-left: 630px;
+    border: 2px solid black;
+    padding: 50px;
+    position: absolute;
+    text-align: center;
+    
+}
+.inner{
+    position: relative;
+}
+.inner input[type=submit]{
+    background-color: lightblue;
+    border-radius: 5px;
+    height: 40px;
+    width: 120px;
+}
+
+#inputbuttons input{
+    width: 300px;
+    height: 50px;
+ 
+}
+@media only screen and (min-width: 1024px) and (max-width: 1439px) {
+    /* Your CSS rules for this media query */
+  }
+  
+
+
+
