@@ -1,4 +1,32 @@
-.firstapp{
-    text-align: center;
-    color: red;
+#image img{
+    margin-top: 50%;
+    margin-left: 50%;
+    height: 400px;
+    width: 700px;
+}
+
+#left{
+    float: left;
+    top:30%;
+    box-sizing: border-box;
+    position: absolute;
+    transform: translate(-50%,-50%);
+}
+
+#right{
+    float: right;
+}
+
+#content{
+    padding-top: 5%;
+    padding-right: 20%;
+    border: solid 2px blue;
+    border-radius: 5px;
+    margin-top: 330px;
+    padding-left: 20%;
+    height: 200px;
+    
+}
+h1{
+    color:#3C009d;
 }

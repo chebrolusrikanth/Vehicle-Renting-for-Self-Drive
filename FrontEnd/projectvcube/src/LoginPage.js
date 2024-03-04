@@ -1,28 +1,38 @@
 import './LoginPage.css'
 import React from 'react';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 function LoginPage(){
+  let [emailphone,setemailphone]=useState("");
+  let [password,setpassword]=useState("");
+  let logindata=()=>{
+    axios.post('http://127.0.0.1:8000/firstapp/login/',{'emailphoneno':emailphone,'password':password},
+    ).then((resp)=>{
+     console.log(resp)
+  }).catch((error)=>{
+      console.log(error.response.data) 
+  });
+  };
     return( 
-        <div className="container">
-             <div id='left'>
-                <div id='image'>
-                <img src='https://www.drivespark.com/img/2024/02/upcoming-4-new-car-launches-in-india-1708802947-20240225052206.jpg' style={{ width: '600px', height: '400px',}}></img>
-                </div>
-                </div>
-              <div id='right'>
-                <div className='outter'>
-                    <h4>Wellcome to our website</h4><br></br>
-                    <center>
-              <input type="Text" placeholder='Email address or phone number'></input><br></br><br></br>
-            <input type="password" placeholder='Password'></input><br></br><br></br>
-            
-            
-           <Button variant="primary">Login</Button>{' '}
-            <p>Forgot login? Sign up</p></center>
+          <div className="container">
+          <div className='outter'>
+            <center>
+            <h3>Login</h3><br></br>
+            <form >
+            <input type="Text" placeholder='Email address or phone number' onChange={(event)=>setemailphone(event.target.value)}></input><br></br><br></br>
+            <input type="password" placeholder='Password' onChange={(event)=>setpassword(event.target.value)}></input><br></br><br></br>
+           <Button variant="primary" onClick={logindata}>Login</Button>{' '}
+           </form>
+           <br></br>
+           <a href='http://localhost:3000/signup'><p>sign up</p></a>
+           <a href='http://localhost:3000/forgotpassword'><p>Forgot Password?</p></a>
+           </center>
+              </div>
             </div>
-        </div>
-        </div>
+      
+       
         
     );
 };

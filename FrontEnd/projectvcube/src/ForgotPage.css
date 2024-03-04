@@ -1,0 +1,26 @@
+#container-1{
+    border: solid #3C009d 2px;
+    border-radius: 10px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 280px;
+    width: 550px;
+    justify-content: center;
+    padding-top: 20px;
+    
+}
+#container-1 input{
+    width: 80%;
+    height: 40px;
+}
+
+h3{
+    color: #3C009d;
+}
+
+#buttons{
+    float: right;
+    margin-right: 55px;
+}
