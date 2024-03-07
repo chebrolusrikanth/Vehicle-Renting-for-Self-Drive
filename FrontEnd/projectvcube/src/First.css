@@ -15,16 +15,19 @@
 
 #right{
     float: right;
+    width: 700px;
+    
 }
 
 #content{
-    padding-top: 5%;
-    padding-right: 20%;
+    padding-top: 3%;
+    padding-right: 5%;
     border: solid 2px blue;
     border-radius: 5px;
     margin-top: 330px;
-    padding-left: 20%;
+    padding-left: 5%;
     height: 200px;
+    margin-left: 80px;
     
 }
 h1{

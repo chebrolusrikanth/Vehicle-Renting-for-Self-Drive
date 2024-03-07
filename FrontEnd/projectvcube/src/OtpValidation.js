@@ -6,10 +6,12 @@ import axios from 'axios';
 function OtpValidation(){
     let [otp,setotp]=useState('');
     let senddata=()=>{
-     axios.post('http://127.0.0.1:8000/firstapp/otpvalidation/',{'otp':otp}).then((resp)=>{
-        console.log(resp);
+     axios.post('http://127.0.0.1:8000/firstapp/otpvalidation/',{ 'otp': otp }).then((resp)=>{
+        alert('OTP is validated Succesufully');
+        window.location.href = '/successotp';
      }).catch((error)=>{
-        console.log(error);
+        alert('OTP is not valid\uD83D\uDE15');
+        window.location.href = '/otpValidation';
      });
     }
 
@@ -33,4 +35,4 @@ function OtpValidation(){
     );
 };
 
-export default OtpValidation
+export default OtpValidation;

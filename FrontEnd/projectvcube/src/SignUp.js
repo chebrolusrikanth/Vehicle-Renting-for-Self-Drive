@@ -12,13 +12,12 @@ const SignUp = () => {
         password: '',
         phone: '',
         adharImage: null,
-        bikeRCImage: null,
         drivingLicenseImage: null,
     });
-
+    const [submitted, setSubmitted] = useState(false);
     const [isChecked,setIsChecked]=useState(false);
     const [errors, setErrors] = useState({});
-
+    
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -42,23 +41,25 @@ const SignUp = () => {
         e.preventDefault();
         if (validateForm()) {
             axios.post('http://127.0.0.1:8000/firstapp/signup/', {
-                "firstname": formData["firstName"],
-                "lastname": formData["lastName"],
+                "first_name": formData["firstName"],
+                "last_name": formData["lastName"],
                 "email": formData["email"],
+                "username": formData["email"],
                 "password": formData["password"],
                 "phoneno": formData["phone"],
                 "aadharimage": formData["adharImage"],
-                "bikercimage": formData["bikeRCImage"],
-                "licenseimage": formData["drivingLicenseImage"]
+                "licenseimage": formData["drivingLicenseImage"],
+                
             },
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then((resp) => {
-                alert("Account is created succesufully")
+                alert("Account is created succesufully");
+                setSubmitted(true);
             }).catch((error) => {
-                alert("Account details allready existing in our data base")
+                alert("Something went wrong or Account details allready existing in our database");
             });
         };
     };
@@ -86,10 +87,11 @@ const SignUp = () => {
             errors["email"] = "Please enter your email address.";
         }
 
-        if (!formData.password) {
+        if (!formData.password || formData.password.length < 8) {
             formIsValid = false;
-            errors["password"] = "Please enter your password.";
+            errors["password"] = "Password must be at least 8 characters long and not empty";
         }
+        
         if (!formData.phone || ((formData.phone.length>10) || (formData.phone.length<10))){
             formIsValid = false;
             
@@ -101,11 +103,6 @@ const SignUp = () => {
             errors["adharImage"] = "Please upload your Aadhar image.";
         }
 
-        if (!formData.bikeRCImage) {
-            formIsValid = false;
-            errors["bikeRCImage"] = "Please upload your Bike RC image.";
-        }
-
         if (!formData.drivingLicenseImage) {
             formIsValid = false;
             errors["drivingLicenseImage"] = "Please upload your Driving License image.";
@@ -114,6 +111,9 @@ const SignUp = () => {
         setErrors(errors);
         return formIsValid;
     };
+    if (submitted) {
+        return <LoginPage />;
+    }
 
     return (
         <div className="sign-up-container">
@@ -136,8 +136,6 @@ const SignUp = () => {
                         <label>Aadhar:</label>
                         <input type="file" name="adharImage" accept="image/*" onChange={handleFileChange} />
                         <span className="error">{errors["adharImage"]}</span>
-                        <label>Vehicle RC:</label>
-                        <input type="file" name="bikeRCImage" accept="image/*" onChange={handleFileChange} />
                         <span className="error">{errors["bikeRCImage"]}</span>
                         <label>Driving License:</label>
                         <input type="file" name="drivingLicenseImage" accept="image/*" onChange={handleFileChange} />

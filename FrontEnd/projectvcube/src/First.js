@@ -10,8 +10,8 @@ function First(){
         </div>
         <div id='right'>
             <div id="content">
-            <h1>One step away to book your Dream car</h1>
-            <h3>Book your first ride now</h3>
+            <h1>One step away to book your Dream Vehicle</h1>
+            <h3>Book your first ride now...</h3>
             </div>
 
         </div>
