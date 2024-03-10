@@ -1,22 +1,51 @@
 import './First.css';
+import React from 'react';
+import Carousel from 'react-bootstrap/Carousel';
+import { useState } from 'react';
 
 function First(){
-    return(
-        <>
-        <div id='left'>
-        <div id="image">
-            <img src="https://img.freepik.com/premium-psd/white-sport-car-transparent-background-3d-rendering-illustration_4942https://img.freepik.com/free-vector/white-hatchback-car-isolated-white-vector_53876-64418.jpg?w=2000&t=st=1709356628~exp=1709357228~hmac=020ffe0900f7e43950cbd7f836457c85c7fe49df2f95e177110c5b765552f18a50-66507.jpg?size=626&ext=jpg"></img>
-        </div>
-        </div>
-        <div id='right'>
-            <div id="content">
-            <h1>One step away to book your Dream Vehicle</h1>
-            <h3>Book your first ride now...</h3>
-            </div>
+  const [index, setIndex] = useState(0);
 
-        </div>
-       </>
-    );
-};
+  const handleSelect = (selectedIndex) => {
+    setIndex(selectedIndex);
+  };
+
+  return (
+    <div className='corosol'>
+    <Carousel style={{ maxWidth: '100%', maxHeight: '600px',position:'relative' }}activeIndex={index} onSelect={handleSelect}>
+      <Carousel.Item>
+      <img
+        className="d-block w-100"
+        src="https://files.123inventatuweb.com/49/4e/494e90c8-4c77-419a-909c-99f06b66cffb.jpg"
+        style={{ width: '400px', height: '600px' }} 
+        alt='Not Found'
+      />
+        <Carousel.Caption>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+      <img
+        className="d-block w-100"
+        src="https://consumerlink.co.za/wp-content/uploads/2021/01/rent-to-buy.jpg"
+        style={{ width: '400px', height: '700px' }} 
+        alt='Not Found'
+      />
+        <Carousel.Caption>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+      <img
+        className="d-block w-100"
+        src="https://www.freevector.com/uploads/vector/preview/27644/rental2.jpg"
+        style={{ width: '400px', height: '800px' }} 
+        alt='Not Found'
+      />
+        <Carousel.Caption>
+        </Carousel.Caption>
+      </Carousel.Item>
+    </Carousel>
+    </div>
+  );
+}
 
 export default First;

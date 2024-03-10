@@ -1,0 +1,24 @@
+.carcontent{
+    border: solid 3px #3C009d;
+    height: 800px;
+    width: 350px;
+    margin-top: 5%;
+    margin-left: 35%;
+    padding-top: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.carcontent input[type=text]{
+    width: 80%;
+    height: 40px;
+}
+
+.carcontent input[type=file]{
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid ;
+    width: 80%;
+    background-color: whitesmoke;
+}

@@ -11,3 +11,24 @@ class signup(models.Model):
     phoneno=models.CharField(max_length=10,primary_key=True)
     aadharimage = models.ImageField(upload_to='images/')
     licenseimage = models.ImageField(upload_to='images/')   
+
+class cars(models.Model):
+    company=models.CharField(max_length=30)
+    vehicle_type=models.CharField(max_length=30)
+    area=models.CharField(max_length=20)
+    Registrationno=models.CharField(max_length=17,primary_key=True)
+    vehicle_RC=models.ImageField(upload_to='images/')
+    photo_1=models.ImageField(upload_to='images/')
+    photo_2=models.ImageField(upload_to='images/')
+    photo_3=models.ImageField(upload_to='images/')
+    Description=models.CharField(max_length=300)
+
+class bikes(models.Model):
+    company=models.CharField(max_length=30)
+    area=models.CharField(max_length=20)
+    Registrationno=models.CharField(max_length=17,primary_key=True)
+    vehicle_RC=models.ImageField(upload_to='images/')
+    photo_1=models.ImageField(upload_to='images/')
+    photo_2=models.ImageField(upload_to='images/')
+    photo_3=models.ImageField(upload_to='images/')
+    Description=models.CharField(max_length=300)

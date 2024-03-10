@@ -59,19 +59,17 @@ function LoginPage() {
 
   return (
     <div className="container">
-      <div className='outter'>
+      <div className="outter">
         <center>
-          <h3>Login</h3><br></br>
+          <h3 style={{color:"#3C009d"}}>Login</h3><br></br>
           <form onSubmit={handleSubmit}>
             <input type="text" placeholder='Email address or phone number' onChange={(event) => setEmailPhone(event.target.value)} />
-            {emailphoneError && <div className="error">{emailphoneError}</div>}
-            <br></br><br></br>
+            {emailphoneError && <div className="error">{emailphoneError}</div>}<br></br><br></br>
             <input type="password" placeholder='Password' onChange={(event) => setPassword(event.target.value)} />
             {passwordError && <div className="error">{passwordError}</div>}
             <br></br><br></br>
             <Button variant="primary" type="submit">Login</Button>
           </form>
-          <br></br>
           <a href='http://localhost:3000/signup'><p>Sign up</p></a>
           <a href='http://localhost:3000/forgotpassword'><p>Forgot Password?</p></a>
         </center>

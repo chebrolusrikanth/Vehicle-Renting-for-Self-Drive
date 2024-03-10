@@ -35,6 +35,7 @@ function ForgotPage() {
 
     return (
         <div id="container-1">
+            <center>
             <h3>Find Your Account</h3>
             <hr />
             <form>
@@ -42,11 +43,12 @@ function ForgotPage() {
                 <input type="text" placeholder="Email address" onChange={(event) => setEmail(event.target.value)} />
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 <hr />
-                <div id='buttons'>
+                <div id='butt'>
                     <Button variant="secondary">Cancel</Button>{' '}
                     <Button variant="primary" onClick={senddata}>Search</Button>{' '}
                 </div>
             </form>
+            </center>
         </div>
     );
 };

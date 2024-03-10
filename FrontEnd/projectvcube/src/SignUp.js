@@ -49,7 +49,6 @@ const SignUp = () => {
                 "phoneno": formData["phone"],
                 "aadharimage": formData["adharImage"],
                 "licenseimage": formData["drivingLicenseImage"],
-                
             },
             {
                 headers: {
@@ -119,6 +118,7 @@ const SignUp = () => {
         <div className="sign-up-container">
             <div className="form-container">
                 <h2>Sign Up</h2>
+                <center>
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleInputChange} />
@@ -131,8 +131,6 @@ const SignUp = () => {
                         <span className="error">{errors["password"]}</span>
                         <input type="tel" name="phone" placeholder="Enter PhoneNo with out +91" value={formData.phone} onChange={handleInputChange} />
                         <span className="error">{errors["phone"]}</span>
-                    </div>
-                    <div className="input-group">
                         <label>Aadhar:</label>
                         <input type="file" name="adharImage" accept="image/*" onChange={handleFileChange} />
                         <span className="error">{errors["adharImage"]}</span>
@@ -141,10 +139,13 @@ const SignUp = () => {
                         <input type="file" name="drivingLicenseImage" accept="image/*" onChange={handleFileChange} />
                         <span className="error">{errors["drivingLicenseImage"]}</span>
                     </div>
+                    <div id="signbutton">
                     <button type="submit">Sign Up</button><br></br>
-                    <input type='checkbox' onChange={handleCheckboxChange}></input>&nbsp;
+                    </div>
+                    <input type="checkbox" onChange={handleCheckboxChange}></input>&nbsp;
                     <label>I accept the <a href='https://drive.google.com/file/d/1jWyqTlBvuHBNcaeiXyr2S4PI74QPXuuv/view?usp=drive_link'>terms and conditions</a></label>
                 </form>
+                </center>
             </div>
         </div>
     );

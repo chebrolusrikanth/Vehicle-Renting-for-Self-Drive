@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer,ValidationError
-from firstapp.models import signup
+from .models import signup,cars,bikes
 from django.contrib.auth.models import User
-
+from rest_framework import serializers
 class signupserilalizer(ModelSerializer):
     class Meta:
         model=signup
@@ -28,8 +28,30 @@ class UserSerializer(ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
-
         user.set_password(validated_data['password'])
         user.save()
 
         return user
+
+class carsserializer(ModelSerializer):
+    photo_3=serializers.ImageField(required=False)
+    class Meta:
+        model=cars
+        fields='__all__'
+
+    def validate(self, validated_data):    
+        if cars.objects.filter(Registrationno=validated_data['Registrationno']).exists():
+            raise ValidationError({"Error": "Registrationno already exists..."})
+        return validated_data
+        
+class bikesserializer(ModelSerializer):
+    photo_3=serializers.ImageField(required=False)
+    class Meta:
+        model=bikes
+        fields='__all__'
+
+    def validate(self,validate_data):
+        if bikes.objects.filter(Registrationno=validate_data['Registrationno']).exists():
+            raise ValidationError({"Error":"Registrationo already exists..."})
+        return validate_data        
+

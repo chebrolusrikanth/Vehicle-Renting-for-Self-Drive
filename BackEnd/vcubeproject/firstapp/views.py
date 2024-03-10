@@ -4,7 +4,7 @@ from django.views import View
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_201_CREATED,HTTP_400_BAD_REQUEST,HTTP_200_OK,HTTP_404_NOT_FOUND
 from rest_framework.response import Response
-from .serializer import signupserilalizer,UserSerializer
+from .serializer import signupserilalizer,UserSerializer,carsserializer,bikesserializer
 from django.contrib.auth import authenticate,login,logout
 import random
 from django.contrib.auth.models import User
@@ -86,3 +86,22 @@ class otpvalidation(APIView):
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
         
+class carpost(APIView):
+    def post(self,request):
+        seri=carsserializer(data=request.data)
+        if seri.is_valid()==True:
+            seri.save()
+            return Response(status=HTTP_200_OK)
+        else:
+            print(seri.errors)
+            return Response(status=HTTP_400_BAD_REQUEST)
+
+class bikepost(APIView):
+    def post(self,request):
+        seri=bikesserializer(data=request.data)
+        if seri.is_valid()==True:
+            seri.save()
+            return Response(status=HTTP_200_OK)
+        else:
+            print(seri.errors)
+            return Response(status=HTTP_400_BAD_REQUEST)

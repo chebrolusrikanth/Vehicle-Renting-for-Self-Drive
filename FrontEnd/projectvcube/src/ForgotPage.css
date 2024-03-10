@@ -5,7 +5,7 @@
     top: 30%;
     left: 50%;
     transform: translate(-50%,-50%);
-    height: 280px;
+    height: 300px;
     width: 550px;
     justify-content: center;
     padding-top: 20px;
@@ -20,7 +20,7 @@ h3{
     color: #3C009d;
 }
 
-#buttons{
+#butt{
     float: right;
     margin-right: 55px;
 }

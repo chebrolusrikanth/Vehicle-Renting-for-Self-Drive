@@ -11,15 +11,31 @@ import Navbar from 'react-bootstrap/Navbar';
 import OtpValidation from './OtpValidation';
 import LogoutPage from './LogoutPage';
 import SuccessOtp from './SuccessOtp';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome,faSignInAlt,faSignOutAlt,faInfoCircle, faAddressCard, faCar } from '@fortawesome/free-solid-svg-icons';
+import AvailableVehicles from './AvailableVehicles';
 
 function App() {
   return (
-    <div className="App">
+    <div  className="App">
        <Router>
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar expand="lg" bg="dark" data-bs-theme="light" className="bg-body-tertiary" style={{borderRadius:'5px'}}>
       <Container>
-        <Navbar.Brand href=""><Link to="/login">Login Page</Link></Navbar.Brand>
-        <Navbar.Brand href=""><Link to="/logout">Logout</Link></Navbar.Brand>
+      <FontAwesomeIcon icon={faHome} />&nbsp;&nbsp;
+      <span style={{color:"black",fontWeight:"bold"}}>
+      <Navbar.Brand href=""><Link to="/">Home</Link></Navbar.Brand>
+      <FontAwesomeIcon icon={faCar} />&nbsp;&nbsp;
+      <Navbar.Brand href=""><Link to="/availablevehicles">Vehicles</Link></Navbar.Brand>
+      <FontAwesomeIcon icon={faInfoCircle} />&nbsp;&nbsp;
+      <Navbar.Brand href=""><Link to="">About Us</Link></Navbar.Brand>
+      <FontAwesomeIcon icon={faAddressCard} />&nbsp;&nbsp;
+      <Navbar.Brand href=""><Link to="">Contact Us</Link></Navbar.Brand>
+      <FontAwesomeIcon icon={faSignInAlt} />&nbsp;&nbsp;
+      <Navbar.Brand href=""><Link to="/login">Login</Link></Navbar.Brand>
+      <FontAwesomeIcon icon={faSignOutAlt} />&nbsp;&nbsp;
+      <Navbar.Brand href=""><Link to="/logout">Logout</Link></Navbar.Brand>
+      </span>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">  
         </Navbar.Collapse>
@@ -34,6 +50,7 @@ function App() {
         <Route path="/otpValidation" element={<OtpValidation />}></Route>
         <Route path="/logout" element={<LogoutPage />} ></Route>
         <Route path="/successotp" element={<SuccessOtp />}></Route>
+        <Route path="/availablevehicles" element={<AvailableVehicles/>}></Route>
         </Routes>
       </Router>
     </div>

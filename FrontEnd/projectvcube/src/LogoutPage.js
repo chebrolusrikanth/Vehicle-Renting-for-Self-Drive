@@ -15,10 +15,11 @@ function handleLogout() {
 
 function LogoutButton() {
     return (
-        <div id='logoubutton'>
-
+        <div className="content">
+        <center>
         <h3>Are you sure to log out?</h3>      
         <button onClick={handleLogout}>Logout</button>
+        </center>
         </div>
     );
 }
