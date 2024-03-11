@@ -4,7 +4,8 @@ import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import axios from "axios";
-import { eventWrapper } from "@testing-library/user-event/dist/utils";
+import AvailableVehicles from "./AvailableVehicles";
+
 
 function CreatePost(){
     const [iscar,setiscar]=useState(true);
@@ -18,6 +19,7 @@ function CreatePost(){
     const [image2,setimage2]=useState(null);
     const [image3,setimage3]=useState(null);
     const [Desc,setDesc]=useState("");
+    const [cpost,setcpost]=useState(false);
 
     const carform = new FormData();
     carform.append("company",selectedcar);
@@ -43,18 +45,20 @@ function CreatePost(){
     const handleonclick=()=>{
         if (iscar){
        axios.post("http://127.0.0.1:8000/firstapp/carpost/",carform).then((resp)=>{
-        console.log(resp);
+        alert("Post is created Sucessfully")
+        setcpost(true);
        })
        .catch((error)=>{
-        console.log(error);
+        alert("Something went worng or registartionNo allready existing with us\uD83D\uDE15")
        });
     }
        else{
         axios.post("http://127.0.0.1:8000/firstapp/bikepost/",bikeform).then((resp)=>{
-        console.log(resp);
+        alert("Post is created Sucessfully")
+        setcpost(true);
        })
        .catch((error)=>{
-        console.log(error);
+        alert("Something went worng or registartionNo allready existing with us\uD83D\uDE15")
        });
     }
     }
@@ -64,6 +68,10 @@ function CreatePost(){
     const carclick=()=>{
         setiscar(true);
     }
+    if(cpost){
+        return <AvailableVehicles/>;
+    }
+    
     return(
         <div className="carcontent">
             {iscar ?(

@@ -12,6 +12,9 @@ class signup(models.Model):
     aadharimage = models.ImageField(upload_to='images/')
     licenseimage = models.ImageField(upload_to='images/')   
 
+    def __str__(self):
+        return self.last_name
+
 class cars(models.Model):
     company=models.CharField(max_length=30)
     vehicle_type=models.CharField(max_length=30)
@@ -22,6 +25,7 @@ class cars(models.Model):
     photo_2=models.ImageField(upload_to='images/')
     photo_3=models.ImageField(upload_to='images/')
     Description=models.CharField(max_length=300)
+    
 
 class bikes(models.Model):
     company=models.CharField(max_length=30)

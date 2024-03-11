@@ -40,7 +40,7 @@ class carsserializer(ModelSerializer):
         fields='__all__'
 
     def validate(self, validated_data):    
-        if cars.objects.filter(Registrationno=validated_data['Registrationno']).exists():
+        if cars.objects.filter(Registrationno=validated_data['Registrationno']).exists() or bikes.objects.filter(Registrationno=validated_data['Registrationno']).exists():
             raise ValidationError({"Error": "Registrationno already exists..."})
         return validated_data
         
@@ -51,7 +51,17 @@ class bikesserializer(ModelSerializer):
         fields='__all__'
 
     def validate(self,validate_data):
-        if bikes.objects.filter(Registrationno=validate_data['Registrationno']).exists():
+        if bikes.objects.filter(Registrationno=validate_data['Registrationno']).exists() or cars.objects.filter(Registrationno=validate_data['Registrationno']).exists():
             raise ValidationError({"Error":"Registrationo already exists..."})
         return validate_data        
 
+class CombinedSerializer(serializers.Serializer):
+    def to_representation(self, instance):
+        if isinstance(instance, bikes):
+            serializer = bikesserializer(instance)
+        elif isinstance(instance, cars):
+            serializer = carsserializer(instance)
+        else:
+            raise Exception("Unknown instance type")
+
+        return serializer.data

@@ -18,11 +18,15 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
+from firstapp.views import getbikepost,getcarpost
+from rest_framework import routers
+
+route=routers.DefaultRouter()
+route.register("getbikepost",getbikepost,basename='getbikepost')
+route.register("getcarpost",getcarpost,basename='getcarpost')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('firstapp/',include('firstapp.urls')),
-]
-
-
-urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    path('api/',include(route.urls)),
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

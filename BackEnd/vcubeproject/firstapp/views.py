@@ -1,18 +1,22 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
 from django.views import View
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view,authentication_classes,permission_classes
 from rest_framework.status import HTTP_201_CREATED,HTTP_400_BAD_REQUEST,HTTP_200_OK,HTTP_404_NOT_FOUND
 from rest_framework.response import Response
 from .serializer import signupserilalizer,UserSerializer,carsserializer,bikesserializer
 from django.contrib.auth import authenticate,login,logout
 import random
+from django.contrib.auth.decorators import login_required,user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import cars,bikes
 from django.contrib.auth.models import User
-from .models import signup
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.contrib.sessions.models import Session
-from rest_framework.decorators import api_view,authentication_classes,permission_classes
+from rest_framework import viewsets
+from itertools import chain
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 class signupapi(APIView):
@@ -33,7 +37,6 @@ class signupapi(APIView):
             }, status=HTTP_201_CREATED)
         else:
             return Response(signupdata.errors,status=HTTP_400_BAD_REQUEST)
-
 
 class loginapi(APIView):
     def post(self,request):
@@ -65,7 +68,7 @@ class forgotapi(APIView):
             request.session.save()
             print(request.session.items())
             subject='OTP'
-            from_user='aravindpolusani@gmail.com'
+            from_user='ch.srikanth0809@gmail.com'
             to_list=[request.data['email']]
             """
             msg='''
@@ -85,9 +88,12 @@ class otpvalidation(APIView):
             return Response(status=HTTP_200_OK)
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
-        
-class carpost(APIView):
-    def post(self,request):
+    
+
+@api_view(['POST'])  
+@login_required(login_url='http://localhost:3000/login')    
+def carpost(request):
+    if request.method == 'POST':
         seri=carsserializer(data=request.data)
         if seri.is_valid()==True:
             seri.save()
@@ -96,8 +102,13 @@ class carpost(APIView):
             print(seri.errors)
             return Response(status=HTTP_400_BAD_REQUEST)
 
-class bikepost(APIView):
-    def post(self,request):
+
+@api_view(['POST'])
+def bikepost(request):
+    if request.method=='POST':
+        if not request.user.is_authenticated:
+            # Redirect to the external login URL
+            return HttpResponseRedirect('http://localhost:3000/login')
         seri=bikesserializer(data=request.data)
         if seri.is_valid()==True:
             seri.save()
@@ -105,3 +116,14 @@ class bikepost(APIView):
         else:
             print(seri.errors)
             return Response(status=HTTP_400_BAD_REQUEST)
+
+class getcarpost(viewsets.ModelViewSet):
+    carobj=cars.objects.all()
+    queryset=carobj
+    serializer_class=carsserializer
+
+class getbikepost(viewsets.ModelViewSet):
+    bikeobj=bikes.objects.all()
+    queryset=bikeobj
+    serializer_class=bikesserializer
+    

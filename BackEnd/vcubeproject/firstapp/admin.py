@@ -4,4 +4,6 @@ from .models import *
 
 
 admin.site.register(signup)
+admin.site.register(cars)
+admin.site.register(bikes)
 
