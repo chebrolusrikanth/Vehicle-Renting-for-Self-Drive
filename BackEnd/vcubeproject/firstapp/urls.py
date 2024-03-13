@@ -9,4 +9,6 @@ urlpatterns=[
     path('carpost/',views.carpost,name='carpostapi'),
     path('bikepost/',views.bikepost,name='bikepostapi'),
     path('logout/',views.logoutapi.as_view(),name='logoutapi'),
+    path('successotp/',views.successotpapi.as_view(),name='successotpapi'),
+    
 ]

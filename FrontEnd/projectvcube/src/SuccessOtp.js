@@ -1,10 +1,61 @@
+import axios from "axios";
+import { useEffect,useState } from "react";
+import Button from 'react-bootstrap/Button';
+import './SuccessOtp.css';
 
-function SuccessOtp(){
-    return(
+function SuccessOtp() {
+    const [otpdata, setOtpData] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        username:'',
+        phoneno: '',
+        password: ''
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/firstapp/successotp/');
+                setOtpData(response.data);
+            } catch (error) {
+                alert("No data found");
+            }
+        };
+        fetchData();
+    }, []);
+
+    const handleSubmit = async () => {
+        try {
+            await axios.put('http://127.0.0.1:8000/firstapp/successotp/', otpdata);
+            alert('Data updated successfully');
+            window.location.href = '/login';
+        } catch (error) {
+            console.log(otpdata);
+            alert('Failed to update data');
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setOtpData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    return (
         <div className="success">
-            <h3>Otp validated successfully</h3>
+            <center>
+                <input type="text" name="first_name" value={otpdata.first_name} onChange={handleChange} placeholder="Update your first name" /><br /><br />
+                <input type="text" name="last_name" value={otpdata.last_name} onChange={handleChange} placeholder="Update your last name" /><br /><br />
+                <input type="text" name="username" value={otpdata.username} onChange={handleChange} placeholder="Update username" /><br /><br />
+                <input type="text" name="email" value={otpdata.email} onChange={handleChange} placeholder="Update your email" /><br /><br />
+                <input type="text" name="phoneno" value={otpdata.phoneno} onChange={handleChange} placeholder="PhoneNo without country code" /><br /><br />
+                <input type="text" name="password" value={otpdata.password} onChange={handleChange} placeholder="Update your password" /><br /><br />
+                <Button variant="primary" onClick={handleSubmit}>Submit</Button>{' '}
+            </center>
         </div>
-
     );
 };
 

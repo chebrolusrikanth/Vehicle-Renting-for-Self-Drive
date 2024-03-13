@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
-from django.views import View
+from .models import signup
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
 from rest_framework.status import HTTP_201_CREATED,HTTP_400_BAD_REQUEST,HTTP_200_OK,HTTP_404_NOT_FOUND
 from rest_framework.response import Response
-from .serializer import signupserilalizer,UserSerializer,carsserializer,bikesserializer
+from .serializer import *
 from django.contrib.auth import authenticate,login,logout
 import random
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -45,7 +45,8 @@ class loginapi(APIView):
         valid_user=authenticate(request,username=remail,password=rpassword)    
         if valid_user != None:
             login(request,valid_user)
-            return Response(status=HTTP_200_OK)
+            user_serializer=UserSerializer(valid_user)
+            return Response(user_serializer.data,status=HTTP_200_OK)
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
         
@@ -63,6 +64,7 @@ class forgotapi(APIView):
         val=User.objects.filter(email=request.data['email'])
         if len(val)>0:
             otp=otpgeneration()
+            request.session['Email']=request.data['email']
             request.session['gen_otp'] = otp
             request.session.set_expiry(300)
             request.session.save()
@@ -91,7 +93,6 @@ class otpvalidation(APIView):
     
 
 @api_view(['POST'])  
-@login_required(login_url='http://localhost:3000/login')    
 def carpost(request):
     if request.method == 'POST':
         seri=carsserializer(data=request.data)
@@ -106,9 +107,6 @@ def carpost(request):
 @api_view(['POST'])
 def bikepost(request):
     if request.method=='POST':
-        if not request.user.is_authenticated:
-            # Redirect to the external login URL
-            return HttpResponseRedirect('http://localhost:3000/login')
         seri=bikesserializer(data=request.data)
         if seri.is_valid()==True:
             seri.save()
@@ -127,3 +125,55 @@ class getbikepost(viewsets.ModelViewSet):
     queryset=bikeobj
     serializer_class=bikesserializer
     
+class successotpapi(APIView):
+    def get(self,request):
+        recent_session = Session.objects.order_by('-expire_date').first()
+        session_email=recent_session.get_decoded()['Email']
+        user_details=signup.objects.get(email=session_email)
+        auth_details=User.objects.get(email=session_email)
+        user_data = {
+                    'first_name': user_details.first_name,
+                    'last_name': user_details.last_name,
+                    'email': user_details.email,
+                    'username':auth_details.username,
+                    'phoneno': user_details.phoneno,
+                    'password':user_details.password,
+                }
+        return Response(user_data,status=HTTP_200_OK)
+    
+    def put(self, request):
+        recent_session = Session.objects.order_by('-expire_date').first()
+        session_email = recent_session.get_decoded()['Email']
+        signval = signup.objects.get(email=session_email)
+        useval = User.objects.get(email=session_email)
+            
+        signseri = updatesignup(signval, data=request.data)
+        useseri = updateuser(useval, data=request.data)
+        sign_valid = signseri.is_valid()
+        use_valid = useseri.is_valid()           
+        if sign_valid and use_valid:
+            signseri.save()
+            useseri.save()
+            new_password = request.data.get('password')
+            if new_password:
+                useval.set_password(new_password)
+                useval.save()
+            return Response(status=HTTP_200_OK)
+        else:
+            return Response(status=HTTP_400_BAD_REQUEST) 
+        
+class filtering(viewsets.ModelViewSet):
+     def create(self, request):
+        brand = request.data.get('company')
+        Type = request.data.get('type')
+        
+        if Type == 'car':
+            carobjs = cars.objects.filter(company=brand)
+            serializer = carsserializer(carobjs, many=True,context={'request': request})
+            return Response(serializer.data, status=HTTP_200_OK)
+        elif Type == 'bike':
+            bikeobjs = bikes.objects.filter(company=brand)
+            serializer = bikesserializer(bikeobjs, many=True,context={'request': request})
+            return Response(serializer.data, status=HTTP_200_OK)
+        
+        return Response({'message': 'Invalid type'}, status=HTTP_400_BAD_REQUEST)

@@ -65,3 +65,15 @@ class CombinedSerializer(serializers.Serializer):
             raise Exception("Unknown instance type")
 
         return serializer.data
+
+class updatesignup(ModelSerializer):
+    class Meta:
+        model=signup
+        fields=['first_name','last_name','email','password','phoneno']
+
+
+class updateuser(ModelSerializer):
+    class Meta:
+        model=User
+        fields=['first_name','last_name','username','email','password']
+    

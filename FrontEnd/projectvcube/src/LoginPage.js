@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import DashBoard from './DashBoard';
+import SignUp from './SignUp';
+import ForgotPage from './ForgotPage';
 
 function LoginPage() {
   const [emailphone, setEmailPhone] = useState("");
@@ -10,6 +12,9 @@ function LoginPage() {
   const [emailphoneError, setEmailPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [onsignup,setonsignup]=useState(false);
+  const [onforgot,setonforgot]=useState(false);
 
   const validateForm = () => {
     let isValid = true;
@@ -47,6 +52,7 @@ function LoginPage() {
       'emailphone': emailphone,
       'password': password,
     }).then((resp) => {
+      setUserData(resp.data);
       setSubmitted(true);
     }).catch((error) => {
       alert('Account Not Found\uD83D\uDE15');
@@ -54,9 +60,18 @@ function LoginPage() {
   };
 
   if (submitted) {
-    return <DashBoard />;
-  }
-
+    return (
+        <DashBoard userData={userData} />
+    );}
+  if (onsignup){
+    return(
+        <SignUp/>
+    );}
+  if(onforgot){
+    return(
+      <ForgotPage/>
+    );}
+  
   return (
     <div className="container">
       <div className="outter">
@@ -70,8 +85,8 @@ function LoginPage() {
             <br></br><br></br>
             <Button variant="primary" type="submit">Login</Button>
           </form>
-          <a href='http://localhost:3000/signup'><p>Sign up</p></a>
-          <a href='http://localhost:3000/forgotpassword'><p>Forgot Password?</p></a>
+          <p onClick={()=>{setonsignup(true)}} style={{color:'blue',cursor: 'pointer',textDecoration: 'underline'}}>Sign up</p>
+          <p onClick={()=>{setonforgot(true)}}  style={{color:'blue',cursor: 'pointer',textDecoration: 'underline'}}>Forgot Password?</p>
         </center>
       </div>
     </div>

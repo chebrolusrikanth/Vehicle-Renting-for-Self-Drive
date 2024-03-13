@@ -24,7 +24,7 @@ function App() {
       <Container>
       <FontAwesomeIcon icon={faHome} />&nbsp;&nbsp;
       <span style={{color:"black",fontWeight:"bold"}}>
-      <Navbar.Brand href=""><Link to="/">Home</Link></Navbar.Brand>
+      <Navbar.Brand href=""><Link to="/Home">Home</Link></Navbar.Brand>
       <FontAwesomeIcon icon={faCar} />&nbsp;&nbsp;
       <Navbar.Brand href=""><Link to="/availablevehicles">Vehicles</Link></Navbar.Brand>
       <FontAwesomeIcon icon={faInfoCircle} />&nbsp;&nbsp;
@@ -43,7 +43,7 @@ function App() {
     </Navbar>
     <Link to="/"></Link>
         <Routes>
-        <Route path="/" element={<First />}></Route>
+        <Route path="/Home" element={<First />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/forgotpassword" element={<ForgotPage />}></Route>
