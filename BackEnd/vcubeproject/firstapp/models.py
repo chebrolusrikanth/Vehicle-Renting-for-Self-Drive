@@ -26,6 +26,8 @@ class cars(models.Model):
     photo_3=models.ImageField(upload_to='images/')
     Description=models.CharField(max_length=300)
     
+    def __str__(self):
+        return self.company
 
 class bikes(models.Model):
     company=models.CharField(max_length=30)
@@ -36,3 +38,6 @@ class bikes(models.Model):
     photo_2=models.ImageField(upload_to='images/')
     photo_3=models.ImageField(upload_to='images/')
     Description=models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.company

@@ -1,4 +1,4 @@
-.content button{
+.logoutcontent button{
     border-radius: 5px;
     margin-top: 20px;
     background-color: rgb(151, 71, 151);
@@ -6,6 +6,7 @@
     height: 40px;
 }
 
-.content{
+.logoutcontent{
     margin-top: 5%;
+    background-color: white;
 }

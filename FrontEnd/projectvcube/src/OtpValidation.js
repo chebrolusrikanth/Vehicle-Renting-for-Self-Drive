@@ -9,6 +9,10 @@ function OtpValidation(){
     let [sucsotp,setsucsotp]=useState(false);
     
     let sendotpdata=()=>{
+      if (!otp) {
+         alert("Please enter the OTP.");
+         return; 
+     } 
      axios.post('http://127.0.0.1:8000/firstapp/otpvalidation/',{ 'otp': otp }).then((resp)=>{
         alert('OTP is validated Succesufully');
         setsucsotp(true);

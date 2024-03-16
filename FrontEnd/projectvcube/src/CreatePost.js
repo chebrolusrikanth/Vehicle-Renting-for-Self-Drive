@@ -43,12 +43,18 @@ function CreatePost(){
     bikeform.append("Description", Desc);
 
     const handleonclick=()=>{
+        if (!city || !Registrationno || !vehiclerc || !image1 || !image2 || !image3 || !Desc) {
+            alert("Please fill in all the required fields.");
+            return; 
+        }
+
         if (iscar){
        axios.post("http://127.0.0.1:8000/firstapp/carpost/",carform).then((resp)=>{
-        alert("Post is created Sucessfully")
+        alert("Post is created Sucessfully");
         setcpost(true);
        })
        .catch((error)=>{
+        console.log(error.data);
         alert("Something went worng or registartionNo allready existing with us\uD83D\uDE15")
        });
     }
@@ -123,7 +129,7 @@ function CreatePost(){
             <input type="file" name="pic1" accept="image/*" onChange={(event)=>{setimage1(event.target.files[0])}}/><br></br>
             <input type="file" name="pic2" accept="image/*" onChange={(event)=>{setimage2(event.target.files[0])}}/><br></br>
             <input type="file" name="Pic3" accept="image/*" onChange={(event)=>{setimage3(event.target.files[0])}}/><br></br> 
-            <input type="text" placeholder="Describe your car in 300 words" onChange={(event)=>setDesc(event.target.value)} style={{height:'100px'}}/><br></br><br></br>
+            <input type="text" placeholder="Enter PhoneNo,PerDayprice,about car" onChange={(event)=>setDesc(event.target.value)} style={{height:'100px'}}/><br></br><br></br>
 
             <ButtonGroup aria-label="Basic example" style={{width:"80%"}}>
             <Button  onClick={carclick} variant="outline-primary" className={iscar ? "active" : ""} >Cars</Button>

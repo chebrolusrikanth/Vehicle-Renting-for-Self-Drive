@@ -1,9 +1,10 @@
 import './LoginPage.css'
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import DashBoard from './DashBoard';
 import SignUp from './SignUp';
+import { AuthContext } from './AuthContext';
 import ForgotPage from './ForgotPage';
 
 function LoginPage() {
@@ -12,9 +13,10 @@ function LoginPage() {
   const [emailphoneError, setEmailPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [userData, setUserData] = useState(null);
   const [onsignup,setonsignup]=useState(false);
   const [onforgot,setonforgot]=useState(false);
+  const { setIsLoggedIn } = useContext(AuthContext);
+  const {setUserData} = useContext(AuthContext);
 
   const validateForm = () => {
     let isValid = true;
@@ -54,23 +56,20 @@ function LoginPage() {
     }).then((resp) => {
       setUserData(resp.data);
       setSubmitted(true);
+      setIsLoggedIn(true);
     }).catch((error) => {
       alert('Account Not Found\uD83D\uDE15');
     });
   };
 
   if (submitted) {
-    return (
-        <DashBoard userData={userData} />
-    );}
+    return (<DashBoard /> );}
+
   if (onsignup){
-    return(
-        <SignUp/>
-    );}
+    return (<SignUp/>);}
+
   if(onforgot){
-    return(
-      <ForgotPage/>
-    );}
+     return (<ForgotPage/>);}
   
   return (
     <div className="container">

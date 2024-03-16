@@ -6,3 +6,10 @@
 .bg-body-tertiary{
   margin-top:10px ;
 }
+
+body{
+  background-image: url('./images/company\ log-safeimagekit.jpeg');
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  opacity: 1.0;
+}

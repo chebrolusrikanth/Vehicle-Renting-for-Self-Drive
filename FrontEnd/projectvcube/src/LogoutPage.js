@@ -1,25 +1,32 @@
-import React from 'react';
+import React, { useState,useContext } from 'react';
 import axios from 'axios';
 import './LogoutPage.css'
-
-function handleLogout() {
-    axios.get('http://127.0.0.1:8000/firstapp/logout/')
-        .then(response => {
-            alert('Logout successful');
-            window.location.href = '/login';
-        })
-        .catch(error => {
-            console.error('Logout failed', error);
-        });
-}
+import LoginPage from './LoginPage';
+import { AuthContext } from './AuthContext'
 
 function LogoutButton() {
+    const [isLogout, setIsLogout] = useState(false);
+    const { setIsLoggedIn } = useContext(AuthContext);
+
+    const handleLogout = async () => {
+        try {
+            await axios.get('http://127.0.0.1:8000/firstapp/logout/');
+            alert('Logout successful');
+            setIsLogout(true);
+            setIsLoggedIn(false);
+        } catch (error) {
+            console.error('Logout failed', error);
+        }};
+
+    if (isLogout) {
+        return (<LoginPage />);
+    }
     return (
-        <div className="content">
-        <center>
-        <h3>Are you sure to log out?</h3>      
-        <button onClick={handleLogout}>Logout</button>
-        </center>
+        <div className="logoutcontent">
+            <center>
+                <h3>Are you sure you want to log out?</h3>
+                <button onClick={handleLogout}>Logout</button>
+            </center>
         </div>
     );
 }

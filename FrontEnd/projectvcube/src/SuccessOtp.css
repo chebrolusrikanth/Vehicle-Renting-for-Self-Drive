@@ -1,6 +1,6 @@
 .success{
-    margin-top: 50px;
-    height: 480px;
+    margin-top: 8%;
+    height: 610px;
     border: solid 3px #3C009d;
     width: 350px;
     padding: 20px;
@@ -10,6 +10,7 @@
     left: 50%;
     position:absolute;
     transform: translate(-50%,-50%);
+    background-color: white;
 }
 .success input{
     width: 95%;

@@ -1,9 +1,10 @@
 import CreatePost from './CreatePost';
 import './AvailableVehicles.css'
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useContext } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { AuthContext } from './AuthContext';
 
 function AvailableVehicles(){
     let [sub,setsub]=useState(false);
@@ -11,6 +12,7 @@ function AvailableVehicles(){
     let [cardata,setcardata]=useState([]);
     let [selectedType, setselectedType] = useState('');
     let [selectbrand,setselectbrand]=useState('');
+    const { isLoggedIn } = useContext(AuthContext);
     
     const onfilter= async() =>{
        try {
@@ -41,9 +43,13 @@ function AvailableVehicles(){
         fetchData();
     }, []);
     
-
-    if(sub){
+    
+    if(sub && isLoggedIn){
         return <CreatePost/>;
+    };
+    if(sub){
+        alert('Please Login to Access Create Post')
+        setsub(false);
     }
     return(
        <div className="veh">
@@ -103,7 +109,6 @@ function AvailableVehicles(){
             <b>Location:</b>{obj.area}<br/>
             {obj.Description}
           </Card.Text>
-          <Button variant="primary">Book Now</Button>
         </Card.Body>
       </Card></>
        })}

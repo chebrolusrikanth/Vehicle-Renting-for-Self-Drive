@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .models import signup
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
-from rest_framework.status import HTTP_201_CREATED,HTTP_400_BAD_REQUEST,HTTP_200_OK,HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_201_CREATED,HTTP_400_BAD_REQUEST,HTTP_200_OK,HTTP_404_NOT_FOUND,HTTP_100_CONTINUE
 from rest_framework.response import Response
 from .serializer import *
 from django.contrib.auth import authenticate,login,logout
@@ -16,7 +16,7 @@ from django.urls import reverse
 from django.contrib.sessions.models import Session
 from rest_framework import viewsets
 from itertools import chain
-from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 
 # Create your views here.
 class signupapi(APIView):
@@ -91,30 +91,6 @@ class otpvalidation(APIView):
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
     
-
-@api_view(['POST'])  
-def carpost(request):
-    if request.method == 'POST':
-        seri=carsserializer(data=request.data)
-        if seri.is_valid()==True:
-            seri.save()
-            return Response(status=HTTP_200_OK)
-        else:
-            print(seri.errors)
-            return Response(status=HTTP_400_BAD_REQUEST)
-
-
-@api_view(['POST'])
-def bikepost(request):
-    if request.method=='POST':
-        seri=bikesserializer(data=request.data)
-        if seri.is_valid()==True:
-            seri.save()
-            return Response(status=HTTP_200_OK)
-        else:
-            print(seri.errors)
-            return Response(status=HTTP_400_BAD_REQUEST)
-
 class getcarpost(viewsets.ModelViewSet):
     carobj=cars.objects.all()
     queryset=carobj
@@ -177,3 +153,25 @@ class filtering(viewsets.ModelViewSet):
             return Response(serializer.data, status=HTTP_200_OK)
         
         return Response({'message': 'Invalid type'}, status=HTTP_400_BAD_REQUEST)
+
+
+class carpost(APIView): 
+   def post(self,request):
+        seri=carsserializer(data=request.data)
+        if seri.is_valid()==True:
+            seri.save()
+            return Response(status=HTTP_200_OK)
+        else:
+            print(seri.errors)
+            return Response(status=HTTP_400_BAD_REQUEST)
+
+class bikepost(APIView):
+    def post(self,request):
+        seri=bikesserializer(data=request.data)
+        if seri.is_valid()==True:
+            seri.save()
+            return Response(status=HTTP_200_OK)
+        else:
+            print(seri.errors)
+            return Response(status=HTTP_400_BAD_REQUEST)
+        
