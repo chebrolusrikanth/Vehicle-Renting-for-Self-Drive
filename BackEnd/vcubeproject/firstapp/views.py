@@ -175,3 +175,21 @@ class bikepost(APIView):
             print(seri.errors)
             return Response(status=HTTP_400_BAD_REQUEST)
         
+class fulldetails(viewsets.ModelViewSet):
+    def create(self,request):
+        regno=request.data.get('reg_no')
+        vehtype=request.data.get('veh_type')
+        if vehtype is not None:
+            carobj=cars.objects.get(Registrationno=regno)
+            serializers=carsserializer(carobj,context={'request': request})
+            return Response(serializers.data,status=HTTP_200_OK)       
+        else:
+            bikeobj=bikes.objects.get(Registrationno=regno)
+            serializers=bikesserializer(bikeobj,context={'request': request})
+            return Response(serializers.data,status=HTTP_200_OK)
+            
+            
+            
+
+
+        

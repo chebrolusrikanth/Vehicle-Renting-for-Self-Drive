@@ -18,6 +18,7 @@ import AvailableVehicles from './AvailableVehicles';
 import AboutUS from './AboutUS';
 import ContactUs from './ContactUs';
 import DashBoard from './DashBoard';
+import FullDetails from './FullDetails';
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -35,15 +36,18 @@ function App() {
       <Navbar.Brand href=""><Link to="/aboutus">About Us</Link></Navbar.Brand>
       <FontAwesomeIcon icon={faAddressCard} />&nbsp;&nbsp;
       <Navbar.Brand href=""><Link to="/contactus">Contact Us</Link></Navbar.Brand>
+
       {!isLoggedIn && <>
       <FontAwesomeIcon icon={faSignInAlt} />&nbsp;&nbsp;
       <Navbar.Brand href=""><Link to="/login">Login</Link></Navbar.Brand></>}
-      {isLoggedIn && <>
-      <FontAwesomeIcon icon={faSignOutAlt} />&nbsp;&nbsp;
-      <Navbar.Brand href=""><Link to="/logout">Logout</Link></Navbar.Brand></>}
+
       {isLoggedIn && <>
       <FontAwesomeIcon icon={faTachometerAlt} />
       <Navbar.Brand href=""><Link to="/dashboard">DashBoard</Link></Navbar.Brand></>}
+
+      {isLoggedIn && <>
+      <FontAwesomeIcon icon={faSignOutAlt} />&nbsp;&nbsp;
+      <Navbar.Brand href=""><Link to="/logout">Logout</Link></Navbar.Brand></>}
       </span>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">  

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './SignUp.css'; 
 import axios from 'axios';
 import LoginPage from './LoginPage';
+import { FaArrowLeft } from 'react-icons/fa';
 
 
 const SignUp = () => {
@@ -17,6 +18,7 @@ const SignUp = () => {
     const [submitted, setSubmitted] = useState(false);
     const [isChecked,setIsChecked]=useState(false);
     const [errors, setErrors] = useState({});
+    const [backtologin,setbacktologin]=useState(false);
     
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -110,15 +112,17 @@ const SignUp = () => {
         setErrors(errors);
         return formIsValid;
     };
-    if (submitted) {
-        return <LoginPage />;
-    }
+    if (submitted) { return <LoginPage />; }
+
+    if (backtologin) { return < LoginPage/>; }
 
     return (
         <div className="sign-up-container">
+            <div className="backbutton">
+            <FaArrowLeft /><strong><span onClick={()=>{setbacktologin(true)}}>Back</span></strong></div>
             <div className="form-container">
+            <center>
                 <h2>Sign Up</h2>
-                <center>
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleInputChange} />

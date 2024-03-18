@@ -6,10 +6,9 @@ function DashBoard(){
   const {userData}=useContext(AuthContext);
     return (
             <div className="dashboard"><center>
-            <h1>DashBoard</h1>
-            <h2>Welcome, {userData.last_name}</h2>
-            </center>
+            <span style={{color:'#3C009d'}}><h1>DashBoard</h1>
+            <h2>Welcome, {userData.last_name}</h2></span></center>
             </div>
-      );
+    );    
     }
 export default DashBoard;

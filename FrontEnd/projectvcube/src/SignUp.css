@@ -6,7 +6,7 @@
   color: #2e0176;
   font-size:15px;
   font-weight:500;
-  background-color: white;
+  
   }
 
   .h2{
@@ -16,6 +16,7 @@
   .form-container {
     background-color:white;
     padding: 20px;
+    padding-left: 60px;
     border-radius: 10px;
     text-align: center;
     width:380px;
@@ -63,3 +64,12 @@
 .error {
     color: red;
   }
+
+.sign-up-container .backbutton{
+  position: absolute;
+  top: 10%;
+  left: 20px;
+  font-size: larger;
+  cursor: pointer;
+  
+}

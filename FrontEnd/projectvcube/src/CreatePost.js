@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import axios from "axios";
 import AvailableVehicles from "./AvailableVehicles";
+import Form from 'react-bootstrap/Form';
+import { FaArrowLeft } from 'react-icons/fa';
 
 
 function CreatePost(){
@@ -20,10 +22,13 @@ function CreatePost(){
     const [image3,setimage3]=useState(null);
     const [Desc,setDesc]=useState("");
     const [cpost,setcpost]=useState(false);
+    const [regphoneno,setregphoneno]=useState("");
+    const [gocreatepost,setgocreatepost]=useState(false);
 
     const carform = new FormData();
     carform.append("company",selectedcar);
     carform.append("vehicle_type", selectedtype);
+    carform.append("phoneno",regphoneno);
     carform.append("area", city);
     carform.append("Registrationno", Registrationno);
     carform.append("vehicle_RC", vehiclerc);
@@ -36,6 +41,7 @@ function CreatePost(){
     bikeform.append("company",selectedbike);
     bikeform.append("area", city);
     bikeform.append("Registrationno", Registrationno);
+    bikeform.append("phoneno",regphoneno);
     bikeform.append("vehicle_RC", vehiclerc);
     bikeform.append("photo_1", image1);
     bikeform.append("photo_2", image2);
@@ -43,7 +49,7 @@ function CreatePost(){
     bikeform.append("Description", Desc);
 
     const handleonclick=()=>{
-        if (!city || !Registrationno || !vehiclerc || !image1 || !image2 || !image3 || !Desc) {
+        if (!city || !Registrationno || !vehiclerc || !image1 || !image2 || !image3 || !Desc || !regphoneno) {
             alert("Please fill in all the required fields.");
             return; 
         }
@@ -74,12 +80,15 @@ function CreatePost(){
     const carclick=()=>{
         setiscar(true);
     }
-    if(cpost){
-        return <AvailableVehicles/>;
-    }
+    if (cpost){ return <AvailableVehicles/>;  }
+
+    if (gocreatepost) { return <AvailableVehicles />;}
     
     return(
         <div className="carcontent">
+            <div className="backbutton">
+                <span onClick={()=>{setgocreatepost(true)}}><FaArrowLeft />Back</span>
+            </div>
             {iscar ?(
             <div>         
             <label>Car Brand:</label>
@@ -123,14 +132,18 @@ function CreatePost(){
             )}
             <input type="text" placeholder="Enter Your city" onChange={(event)=>{setcity(event.target.value)}}/><br></br><br></br>
             <input type="text" placeholder="Registration No" onChange={(event)=>{setRegistrationno(event.target.value)}}/><br></br><br></br>
+            <input type="text" placeholder="PhoneNo with out country code" onChange={(event)=>{setregphoneno(event.target.value)}}/><br></br><br></br>
             <label>Vehicle RC</label><br></br>
             <input type="file" name="RCphoto" accept="image/*" onChange={(event)=>{setvehiclerc(event.target.files[0])}}/><br></br>
             <label>Vehicle Images</label>
             <input type="file" name="pic1" accept="image/*" onChange={(event)=>{setimage1(event.target.files[0])}}/><br></br>
             <input type="file" name="pic2" accept="image/*" onChange={(event)=>{setimage2(event.target.files[0])}}/><br></br>
             <input type="file" name="Pic3" accept="image/*" onChange={(event)=>{setimage3(event.target.files[0])}}/><br></br> 
-            <input type="text" placeholder="Enter PhoneNo,PerDayprice,about car" onChange={(event)=>setDesc(event.target.value)} style={{height:'100px'}}/><br></br><br></br>
-
+            <center><Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Control as="textarea" placeholder="PerDayPrice and Describe your car" onChange={(event)=>setDesc(event.target.value)} style={{width:'80%',border:"solid black 1px"}} rows={3} />
+            </Form.Group>                
+            </Form></center>
             <ButtonGroup aria-label="Basic example" style={{width:"80%"}}>
             <Button  onClick={carclick} variant="outline-primary" className={iscar ? "active" : ""} >Cars</Button>
             <Button  onClick={bikeclick} variant="outline-primary" className={!iscar ? "active" : ""}>Bikes</Button>

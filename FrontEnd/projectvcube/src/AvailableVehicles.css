@@ -1,0 +1,11 @@
+.avibuttons Button{
+    width: 100px;
+    height: 40px ;
+    margin: 10px;
+}
+
+.avibuttons{
+    position: fixed;
+    bottom: 10%;   
+    margin-left: 42%;
+}
