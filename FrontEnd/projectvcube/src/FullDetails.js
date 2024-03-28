@@ -7,27 +7,24 @@ import AvailableVehicles from "./AvailableVehicles";
 
 
 
-function FullDetails({registrationNo,vehicleType}){
+function FullDetails({registrationNo}){
     const [detaildata, setdetaildata] = useState([]);
     const [backclick,setbackclick]=useState(false);
 
     useEffect(() => {
         const fetchFullDetails = async () => {
             try {
-                console.log(vehicleType,registrationNo);
                 const response = await axios.post('http://127.0.0.1:8000/api/fulldetails/', {
                     'reg_no': registrationNo,
-                    'veh_type': vehicleType,
                 });
                 setdetaildata(response.data); 
             } catch (error) {
                 alert('No data found');
-                console.log(vehicleType,registrationNo);
             }
         };
 
         fetchFullDetails();
-    }, [registrationNo, vehicleType]);
+    }, [registrationNo]);
     if(backclick){
         return <AvailableVehicles/>
     }
@@ -69,13 +66,12 @@ function FullDetails({registrationNo,vehicleType}){
         </Carousel>  
         </div>
         <div className="details">
-          <h4>Company:{detaildata.company}</h4>
-          <h4>Area:{detaildata.area}</h4>
-          <h4>PhoneNo:{detaildata.phoneno}</h4>
-          <h4>About:{detaildata.Description}</h4>
-          <h4>RegistrationNo:{detaildata.Registrationno}</h4>
-          {detaildata.vehicle_type && 
-          <h4>Type:{detaildata.vehicle_type}</h4>}
+          <h4><span style={{color:'#3C009d',fontWeight:'bold'}}>Company:</span>{detaildata.company}</h4>
+          <h4><span style={{color:'#3C009d',fontWeight:'bold'}}>Area:</span>{detaildata.area}</h4>
+          <h4><span style={{color:'#3C009d',fontWeight:'bold'}}>PhoneNo:</span>{detaildata.phoneno}</h4>
+          <h4><span style={{color:'#3C009d',fontWeight:'bold'}}>About:</span>{detaildata.Description}</h4>
+          <h4><span style={{color:'#3C009d',fontWeight:'bold'}}>RegistrationNo:</span>{detaildata.Registrationno}</h4>
+          <h4><span style={{color:'#3C009d',fontWeight:'bold'}}>Type:</span>{detaildata.vehicle_type}</h4>
         </div>
         <div className="backbutton">
         <Button variant="primary" onClick={()=>{setbackclick(true)}}>Back</Button>{' '}

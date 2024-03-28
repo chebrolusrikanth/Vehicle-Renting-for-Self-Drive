@@ -2,8 +2,10 @@ import axios from "axios";
 import { useEffect,useState } from "react";
 import Button from 'react-bootstrap/Button';
 import './SuccessOtp.css';
+import LoginPage from "./LoginPage";
 
 function SuccessOtp() {
+    const [updatedata,setupdatedata]=useState(false);
     const [otpdata, setOtpData] = useState({
         first_name: '',
         last_name: '',
@@ -28,10 +30,10 @@ function SuccessOtp() {
     const handleSubmit = async () => {
         try {
             await axios.put('http://127.0.0.1:8000/firstapp/successotp/', otpdata);
+            setupdatedata(true);
             alert('Data updated successfully');
-            window.location.href = '/login';
+            
         } catch (error) {
-            console.log(otpdata);
             alert('Failed to update data');
         }
     };
@@ -43,6 +45,9 @@ function SuccessOtp() {
             [name]: value
         }));
     };
+    if(updatedata){
+        return <LoginPage/>;
+    }
 
     return (
         <div className="success">
@@ -52,8 +57,8 @@ function SuccessOtp() {
                 <input type="text" name="last_name" value={otpdata.last_name} onChange={handleChange} placeholder="Last name" /><br /><br />
                 <label><b>Update Username</b></label>
                 <input type="text" name="username" value={otpdata.username} onChange={handleChange} placeholder="Username" /><br /><br />
-                <label><b>Update your Email</b></label>
-                <input type="text" name="email" value={otpdata.email} onChange={handleChange} placeholder="Email" /><br /><br />
+                {/*<label><b>Update your Email</b></label>
+                <input type="text" name="email" value={otpdata.email} onChange={handleChange} placeholder="Email" /><br /><br />*/}
                 <label><b>PhoneNo without country code</b></label>
                 <input type="text" name="phoneno" value={otpdata.phoneno} onChange={handleChange} placeholder="PhoneNo" /><br /><br />
                 <label><b>Update your password</b></label>

@@ -7,7 +7,13 @@
     position: absolute;
     
 }
-
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}
+.carousel-indicators .active {
+    background-color: black; 
+}
 .details{
     float: right;
     position: relative;
@@ -22,9 +28,7 @@
     background-color: white;
 }
 
-.details h4{
-    color: #3C009d;
-}
+
 
 .backbutton Button{
     position: absolute;

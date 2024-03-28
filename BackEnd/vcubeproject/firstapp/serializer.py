@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer,ValidationError
-from .models import signup,cars,bikes
+from .models import signup,cars,bikes,contactme
 from django.contrib.auth.models import User
 from rest_framework import serializers
 class signupserilalizer(ModelSerializer):
@@ -77,3 +77,8 @@ class updateuser(ModelSerializer):
         model=User
         fields=['first_name','last_name','username','email','password']
     
+
+class contactserilizer(ModelSerializer):
+    class Meta:
+        model=contactme
+        fields='__all__'

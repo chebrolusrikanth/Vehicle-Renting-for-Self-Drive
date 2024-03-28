@@ -171,4 +171,4 @@ EMAIL_HOST='smtp.gmail.com'
 EMAIL_USE_TLS=True
 EMAIL_USE_PORT=587
 EMAIL_HOST_USER='ch.srikanth0809@gmail.com'
-EMAIL_HOST_PASSWORD='gkugrjyqgwfbakdg'
+EMAIL_HOST_PASSWORD='gkugrjyqgwfba'

@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { AuthContext } from './AuthContext';
 import FullDetails from './FullDetails';
+import LoginPage from './LoginPage';
 
 function AvailableVehicles() {
     let [sub, setsub] = useState(false);
@@ -56,26 +57,21 @@ function AvailableVehicles() {
 
     if(onimg){
         return(
-       <FullDetails registrationNo={registrationNo} vehicleType={vehicleType} />);
+       <FullDetails registrationNo={registrationNo} />);
       }
-    if(sub && isLoggedIn){
-        return <CreatePost/>;
-    };
-    if(sub){
-        alert('Please Login to Access Create Post\uD83D\uDE15')
-        setsub(false);
-    }
-    if(pno===0){
-        alert('No Page Found\uD83D\uDE15');
-    }
-  
+      if (sub && isLoggedIn) {
+        return <CreatePost />;
+    } else if (sub) {
+        alert('Please Login to Access Create Post\uD83D\uDE15');
+        return <LoginPage />;
+    } 
+    
     return (
         <>
             <div className="veh">
                 <center>
-                    <Button variant="info" onClick={() => { setsub(true) }} style={{ margin: '10px', borderRadius: '5px', width: '98%', height: '50px' }}>Create Post</Button>{' '}
                     <label><b>Select Type:</b></label>
-                    <select id="type" name="type" style={{ width: '30%', height: '30px' }} onChange={handleChange}>
+                    <select id="type" name="type" style={{ width: '30%', height: '30px',marginTop:"1%" }} onChange={handleChange}>
                         <option value="">Select</option>
                         <option value="car">car</option>
                         <option value="bike">Bike</option>
@@ -83,7 +79,7 @@ function AvailableVehicles() {
                     {selectedType && (
                         <>
                             &nbsp;&nbsp;<label><b>Select Brand:</b></label>
-                            <select id="brand" name="brand" style={{ width: '30%', height: '30px' }} onChange={(event) => { setselectbrand(event.target.value) }}>
+                            <select id="brand" name="brand" style={{ width: '30%', height: '30px',marginTop:"1%"  }} onChange={(event) => { setselectbrand(event.target.value) }}>
                                 <option value="">Select Brand</option>
                                 {selectedType === 'car' ? (
                                     <>
@@ -110,19 +106,22 @@ function AvailableVehicles() {
                                         <option value="Suzuki">Suzuki</option>
                                         <option value="TVS_Motor">TVS Motor</option>
                                         <option value="Yamaha">Yamaha</option>
+                                        <option value="OLA">OLA</option>
+                                        <option value="Ather">Ather</option> 
                                     </>
                                 ) : null}
                             </select>
                         </>
                     )}
-                    &nbsp;&nbsp;<Button variant="success" onClick={onfilter} style={{width:'100px'}} >Search</Button>
+                    &nbsp;&nbsp;<Button variant="success" onClick={onfilter} style={{width:'150px',height:'30px',padding:"1px",marginBottom:"6px" }} >Search</Button>
+                    <Button variant="success" onClick={() => { setsub(true) }} style={{float:"right",width:"150px",marginRight:"4%",marginTop:"1%",height:'30px',padding:"1px"}}>Create Post</Button>{' '}
                 </center><br /><br />
 
                 {data.length === 0 && <h2>No vehicles are available for rent 😕</h2>}
                 {data.slice(pno * perpage - perpage, pno * perpage).map((obj) => {
                     return (
-                        <Card key={obj.id} style={{ width: '18rem', height: '400px', float: 'left', marginLeft: '15px', marginBottom: '15px' }}>
-                            <Card.Img variant="top" onClick={() => imageclick(obj.Registrationno, obj.vehicle_type)} src={obj.photo_1} style={{ height: "280px" }} />
+                        <Card key={obj.id} style={{ width: '18rem', height: '400px', float: 'left', marginLeft: '1%', marginBottom: '15px' }}>
+                            <Card.Img variant="top" onClick={() => imageclick(obj.Registrationno)} src={obj.photo_1} style={{ height: "280px" }} />
                             <Card.Body>
                                 <Card.Title>Company:{obj.company}</Card.Title>
                                 <Card.Text>
@@ -133,11 +132,21 @@ function AvailableVehicles() {
                     );
                 })}
             </div><br />
-            <div className='avibuttons'>
+            <div className='avibuttons' style={{fontSize:"x-large"}}>
                 <center>
-                    <Button variant='info' onClick={() => { setpno(pno - 1) }}>Previous</Button>
-                    {pno}
-                    <Button variant='info' onClick={() => { setpno(pno + 1) }}>Next</Button>
+                <Button variant='info' onClick={() => { setpno(prevpage => prevpage - 1) }} disabled={pno === 1}>Previous</Button>{' '}          
+                <span className={pno === 1 ? 'currentPage' : ''} onClick={() => { setpno(1) }}>1</span>&nbsp;&nbsp;
+                <span className={pno === 2 ? 'currentPage' : ''} onClick={() => { setpno(2) }}>2</span>&nbsp;&nbsp;
+                <span className={pno === 3 ? 'currentPage' : ''} onClick={() => { setpno(3) }}>3</span>&nbsp;&nbsp;
+                <span className={pno === 4 ? 'currentPage' : ''} onClick={() => { setpno(4) }}>4</span>&nbsp;&nbsp;
+                <span className={pno === 5 ? 'currentPage' : ''} >5</span>&nbsp;&nbsp;
+                <span className={pno === 6 ? 'currentPage' : ''} >6</span>&nbsp;&nbsp;
+                <span className={pno === 7 ? 'currentPage' : ''} >7</span>&nbsp;&nbsp;
+                <span className={pno === 8 ? 'currentPage' : ''} >8</span>&nbsp;&nbsp;
+                <span className={pno === 9 ? 'currentPage' : ''} >9</span>&nbsp;&nbsp;
+                <span className={pno === 10 ? 'currentPage' : ''} >10</span>&nbsp;&nbsp;
+
+          <Button variant='info' onClick={() => { setpno(prevpage => prevpage + 1) }} disabled={data.length <= pno * perpage}>Next</Button>
                 </center>
             </div>
         </>

@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
-from firstapp.views import getbikepost,getcarpost,filtering,fulldetails
+from firstapp.views import getbikepost,getcarpost,filtering,fulldetails,dbdetails
 from rest_framework import routers
 
 route=routers.DefaultRouter()
@@ -26,6 +26,7 @@ route.register("getbikepost",getbikepost,basename='getbikepost')
 route.register("getcarpost",getcarpost,basename='getcarpost')
 route.register("filtering",filtering,basename='filtering')
 route.register("fulldetails",fulldetails,basename='fulldetails')
+route.register("dbdetails",dbdetails,basename='dbdetails')
 
 
 urlpatterns = [

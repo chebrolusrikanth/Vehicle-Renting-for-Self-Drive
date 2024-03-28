@@ -11,7 +11,6 @@ function LogoutButton() {
     const handleLogout = async () => {
         try {
             await axios.get('http://127.0.0.1:8000/firstapp/logout/');
-            alert('Logout successful');
             setIsLogout(true);
             setIsLoggedIn(false);
         } catch (error) {

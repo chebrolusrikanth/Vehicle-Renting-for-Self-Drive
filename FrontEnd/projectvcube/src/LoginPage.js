@@ -77,7 +77,7 @@ function LoginPage() {
         <center>
           <h3 style={{color:"#3C009d"}}>Login</h3><br></br>
           <form onSubmit={handleSubmit}>
-            <input type="text" placeholder='Email address or phone number' onChange={(event) => setEmailPhone(event.target.value)} />
+            <input type="text" placeholder='Email address or username' onChange={(event) => setEmailPhone(event.target.value)} />
             {emailphoneError && <div className="error">{emailphoneError}</div>}<br></br><br></br>
             <input type="password" placeholder='Password' onChange={(event) => setPassword(event.target.value)} />
             {passwordError && <div className="error">{passwordError}</div>}

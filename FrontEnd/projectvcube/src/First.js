@@ -1,7 +1,7 @@
 import './First.css';
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import { Card,Container, Row, Col } from 'react-bootstrap'
+import { Card,Container } from 'react-bootstrap'
 import { useState } from 'react';
 import videoFile from './videos/Homepagevideo.mp4';
 import Image from 'react-bootstrap/Image';
@@ -59,7 +59,7 @@ function First(){
                 <Card.Body>
                   <Card.Title>Wide Selection</Card.Title>
                   <Card.Text>
-                    We offer a wide range of vehicles to suit your needs.
+                    We offer a wide range of vehicles to suit your <br/>needs.
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -69,7 +69,7 @@ function First(){
                 <Card.Body>
                   <Card.Title>Competitive Pricing</Card.Title>
                   <Card.Text>
-                    Our prices are competitive with no hidden fees.
+                    Our prices are competitive with no hidden <br/>fees.
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -101,7 +101,7 @@ function First(){
               <Card>
                 <Card.Body>
                   <Card.Text>
-                    "Booking was a breeze, and the car exceeded my expectations. Highly recommended!" - Jane Smith
+                    "Booking was a breeze, and the car exceeded my expectations. Highly recommended!" <br/>- Jane Smith
                   </Card.Text>
                 </Card.Body>
               </Card>

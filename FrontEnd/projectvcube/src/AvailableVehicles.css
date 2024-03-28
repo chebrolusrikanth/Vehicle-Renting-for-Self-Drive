@@ -5,7 +5,18 @@
 }
 
 .avibuttons{
-    position: fixed;
-    bottom: 10%;   
-    margin-left: 42%;
+    position: absolute;
+    cursor: pointer;
+    bottom: 50px;
+    margin-left: 35%;
 }
+
+.avibuttons span:hover {
+    color: #000000; 
+    text-decoration: underline; 
+  }
+.currentPage {
+  color: #000000; 
+  text-decoration: underline; 
+  }
+  

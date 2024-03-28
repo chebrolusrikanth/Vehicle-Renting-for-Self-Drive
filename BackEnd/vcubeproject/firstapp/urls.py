@@ -10,5 +10,7 @@ urlpatterns=[
     path('bikepost/',views.bikepost.as_view(),name='bikepostapi'),
     path('logout/',views.logoutapi.as_view(),name='logoutapi'),
     path('successotp/',views.successotpapi.as_view(),name='successotpapi'),
-    
+    path('contact/',views.contactapi.as_view(),name='contactapi'),
+    path('dashboard/',views.dashboarddata.as_view(),name='dashboardapi'),
+    path('deleteveh/',views.delete_vehicle.as_view(),name='deletevehicle'),    
 ]

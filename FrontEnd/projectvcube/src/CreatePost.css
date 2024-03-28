@@ -1,6 +1,6 @@
-.carcontent{
+.carcontent {
     border: solid 3px #3C009d;
-    height: 830px;
+    height: 880px;
     width: 350px;
     margin-top: 3%;
     margin-left: 38%;
@@ -10,24 +10,32 @@
     background-color: white;
 }
 
-.carcontent input[type=text]{
+.carcontent.error-border {
+    height: 1050px;
+}
+
+.carcontent input[type=text] {
     width: 80%;
     height: 40px;
 }
 
-.carcontent input[type=file]{
+.carcontent input[type=file] {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
-    border: 1px solid ;
+    border: 1px solid;
     width: 80%;
     background-color: whitesmoke;
 }
 
-.carcontent .backbutton{
+.carcontent .backbutton {
     cursor: pointer;
     position: absolute;
     top: 10%;
     left: 10px;
-    font-size:large ;
+    font-size: large;
+}
+
+.contactcontent {
+    position: relative;
 }

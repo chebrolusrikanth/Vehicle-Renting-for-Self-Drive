@@ -12,11 +12,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import cars,bikes
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.urls import reverse
 from django.contrib.sessions.models import Session
 from rest_framework import viewsets
 from itertools import chain
-from django.urls import reverse_lazy
+
 
 # Create your views here.
 class signupapi(APIView):
@@ -72,11 +71,10 @@ class forgotapi(APIView):
             subject='OTP'
             from_user='ch.srikanth0809@gmail.com'
             to_list=[request.data['email']]
-            """
             msg='''
                 {} this is the otp to update your personal details...
                 Note:This otp is valide for 5 mins'''.format(otp)
-            send_mail(subject=subject,from_email=from_user,recipient_list=to_list,message=msg)"""
+            send_mail(subject=subject,from_email=from_user,recipient_list=to_list,message=msg)
             return Response(status=HTTP_200_OK)
         else:
             return Response(status=HTTP_404_NOT_FOUND)
@@ -90,17 +88,7 @@ class otpvalidation(APIView):
             return Response(status=HTTP_200_OK)
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
-    
-class getcarpost(viewsets.ModelViewSet):
-    carobj=cars.objects.all()
-    queryset=carobj
-    serializer_class=carsserializer
-
-class getbikepost(viewsets.ModelViewSet):
-    bikeobj=bikes.objects.all()
-    queryset=bikeobj
-    serializer_class=bikesserializer
-    
+        
 class successotpapi(APIView):
     def get(self,request):
         recent_session = Session.objects.order_by('-expire_date').first()
@@ -154,6 +142,26 @@ class filtering(viewsets.ModelViewSet):
         
         return Response({'message': 'Invalid type'}, status=HTTP_400_BAD_REQUEST)
 
+class getcarpost(viewsets.ModelViewSet):
+    carobj=cars.objects.all()
+    queryset=carobj
+    serializer_class=carsserializer
+
+class getbikepost(viewsets.ModelViewSet):
+    bikeobj=bikes.objects.all()
+    queryset=bikeobj
+    serializer_class=bikesserializer
+
+class contactapi(APIView):
+    def post(self,request):
+        seri=contactserilizer(data=request.data)
+        if seri.is_valid()==True:
+            seri.save()
+            return Response(status=HTTP_200_OK)
+        else:
+            print(seri.errors)
+            return Response(status=HTTP_400_BAD_REQUEST)
+        
 
 class carpost(APIView): 
    def post(self,request):
@@ -162,7 +170,6 @@ class carpost(APIView):
             seri.save()
             return Response(status=HTTP_200_OK)
         else:
-            print(seri.errors)
             return Response(status=HTTP_400_BAD_REQUEST)
 
 class bikepost(APIView):
@@ -178,18 +185,66 @@ class bikepost(APIView):
 class fulldetails(viewsets.ModelViewSet):
     def create(self,request):
         regno=request.data.get('reg_no')
-        vehtype=request.data.get('veh_type')
-        if vehtype is not None:
+        try:
+            bikeobj=bikes.objects.get(Registrationno=regno)
+        except Exception:
             carobj=cars.objects.get(Registrationno=regno)
             serializers=carsserializer(carobj,context={'request': request})
-            return Response(serializers.data,status=HTTP_200_OK)       
         else:
-            bikeobj=bikes.objects.get(Registrationno=regno)
             serializers=bikesserializer(bikeobj,context={'request': request})
+        return Response(serializers.data,status=HTTP_200_OK)    
+            
+            
+class dbdetails(viewsets.ModelViewSet):
+    def create(self,request):
+        currentuser=request.data.get('current_user')
+        veh_type=request.data.get('type')
+        if veh_type in ['car','Car']:
+            carobjs=cars.objects.filter(upload_by=currentuser)
+            serializers=carsserializer(carobjs,many=True,context={'request':request})
             return Response(serializers.data,status=HTTP_200_OK)
-            
-            
-            
+        elif veh_type in ['bike','Bike']:
+            bikeobjs=bikes.objects.filter(upload_by=currentuser)
+            serializers=bikesserializer(bikeobjs,many=True,context={'request':request})
+            return Response(serializers.data,status=HTTP_200_OK)
+        elif veh_type in ['totalclick']:
+            carobjs=cars.objects.filter(upload_by=currentuser)
+            car_serializers=carsserializer(carobjs,many=True,context={'request':request}).data
+            bikeobjs=bikes.objects.filter(upload_by=currentuser)
+            bike_serializers=bikesserializer(bikeobjs,many=True,context={'request':request}).data
+            serializers=list(chain(car_serializers,bike_serializers))
+            return Response(serializers,status=HTTP_200_OK)
+        else:
+            return Response(status=HTTP_400_BAD_REQUEST)
+    
+class dashboarddata(APIView):
+    def post(self,request):
+        current_user=request.data.get('email')
+        carcount=cars.objects.filter(upload_by=current_user)
+        bikecount=bikes.objects.filter(upload_by=current_user)
+        totalvehicles=len(bikecount)+len(carcount)
+        
+        dash_data={
+            "total_vehicles":totalvehicles,
+            "total_cars":len(carcount),
+            "total_bikes":len(bikecount),
+        }
+        return Response(dash_data,status=HTTP_200_OK)
+
+class delete_vehicle(APIView):
+    def post(self,request):
+        veh_number=request.data.get('vehno')
+        try:
+            carobj=cars.objects.get(Registrationno=veh_number)
+        except Exception:
+            bikeobj=bikes.objects.get(Registrationno=veh_number)
+            bikeobj.delete()
+        else:
+            carobj.delete()
+        return Response(status=HTTP_200_OK)
+
+
+
 
 
         

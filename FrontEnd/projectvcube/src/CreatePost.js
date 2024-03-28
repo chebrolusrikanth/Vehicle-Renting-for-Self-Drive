@@ -1,125 +1,186 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import './CreatePost.css';
-import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import axios from "axios";
 import AvailableVehicles from "./AvailableVehicles";
 import Form from 'react-bootstrap/Form';
 import { FaArrowLeft } from 'react-icons/fa';
+import { AuthContext } from './AuthContext';
 
+function CreatePost() {
+    const { userData } = useContext(AuthContext);
+    const [iscar, setiscar] = useState(true);
+    const [selectedcar, setselectedcar] = useState("");
+    const [selectedbike, setselectedbike] = useState("");
+    const [selectedtype, setselectedtype] = useState("");
+    const [city, setcity] = useState("");
+    const [Registrationno, setRegistrationno] = useState("");
+    const [vehiclerc, setvehiclerc] = useState(null);
+    const [image1, setimage1] = useState(null);
+    const [image2, setimage2] = useState(null);
+    const [image3, setimage3] = useState(null);
+    const [Desc, setDesc] = useState("");
+    const [cpost, setcpost] = useState(false);
+    const [regphoneno, setregphoneno] = useState("");
+    const [gocreatepost, setgocreatepost] = useState(false);
+    const [errors, setErrors] = useState({
+        selectedcar: '',
+        selectedbike: '',
+        city: '',
+        Registrationno: '',
+        regphoneno: '',
+        image1:'',
+        image2:'',
+        image3:'',
+        vehiclerc:'',
+        selectedtype:'',
+    });
 
-function CreatePost(){
-    const [iscar,setiscar]=useState(true);
-    const [selectedcar,setselectedcar]=useState("");
-    const [selectedbike,setselectedbike]=useState("");
-    const [selectedtype,setselectedtype]=useState("");
-    const [city,setcity]=useState("");
-    const [Registrationno,setRegistrationno]=useState("");
-    const [vehiclerc,setvehiclerc]=useState(null);
-    const [image1,setimage1]=useState(null);
-    const [image2,setimage2]=useState(null);
-    const [image3,setimage3]=useState(null);
-    const [Desc,setDesc]=useState("");
-    const [cpost,setcpost]=useState(false);
-    const [regphoneno,setregphoneno]=useState("");
-    const [gocreatepost,setgocreatepost]=useState(false);
+    const handleonclick = () => {
+        const newErrors = {};
+        let hasErrors = false;
 
-    const carform = new FormData();
-    carform.append("company",selectedcar);
-    carform.append("vehicle_type", selectedtype);
-    carform.append("phoneno",regphoneno);
-    carform.append("area", city);
-    carform.append("Registrationno", Registrationno);
-    carform.append("vehicle_RC", vehiclerc);
-    carform.append("photo_1", image1);
-    carform.append("photo_2", image2);
-    carform.append("photo_3", image3);
-    carform.append("Description", Desc);        
-        
-    const bikeform = new FormData();
-    bikeform.append("company",selectedbike);
-    bikeform.append("area", city);
-    bikeform.append("Registrationno", Registrationno);
-    bikeform.append("phoneno",regphoneno);
-    bikeform.append("vehicle_RC", vehiclerc);
-    bikeform.append("photo_1", image1);
-    bikeform.append("photo_2", image2);
-    bikeform.append("photo_3", image3);
-    bikeform.append("Description", Desc);
-
-    const handleonclick=()=>{
-        if (!city || !Registrationno || !vehiclerc || !image1 || !image2 || !image3 || !Desc || !regphoneno) {
-            alert("Please fill in all the required fields.");
-            return; 
+        if (!selectedcar && !selectedbike) {
+            newErrors.selectedcar = 'Please select a vehicle brand';
+            hasErrors = true;
+        } else {
+            newErrors.selectedcar = '';
+        }
+        if (!selectedtype) {
+            newErrors.selectedtype = 'Please select type';
+            hasErrors = true;
+        } else {
+            newErrors.selectedtype = '';
+        }
+        if (!vehiclerc) {
+            newErrors.vehiclerc = 'Please Upload Vehicle RC';
+            hasErrors = true;
+        } else {
+            newErrors.vehiclerc = '';
+        }
+        if (!image1) {
+            newErrors.image1 = 'Please Upload Image1';
+            hasErrors = true;
+        } else {
+            newErrors.image1 = '';
+        }
+        if (!image1) {
+            newErrors.image2 = 'Please Upload Image2';
+            hasErrors = true;
+        } else {
+            newErrors.image2 = '';
+        }
+        if (!image1) {
+            newErrors.image3 = 'Please Upload Image3';
+            hasErrors = true;
+        } else {
+            newErrors.image3 = '';
         }
 
-        if (iscar){
-       axios.post("http://127.0.0.1:8000/firstapp/carpost/",carform).then((resp)=>{
-        alert("Post is created Sucessfully");
-        setcpost(true);
-       })
-       .catch((error)=>{
-        console.log(error.data);
-        alert("Something went worng or registartionNo allready existing with us\uD83D\uDE15")
-       });
+        if (!city) {
+            newErrors.city = 'Please enter your city';
+            hasErrors = true;
+        } else {
+            newErrors.city = '';
+        }
+
+        if (!Registrationno) {
+            newErrors.Registrationno = 'Please enter registration number';
+            hasErrors = true;
+        } else {
+            newErrors.Registrationno = '';
+        }
+
+        if (!regphoneno) {
+            newErrors.regphoneno = 'Please enter phone number';
+            hasErrors = true;
+        } else {
+            newErrors.regphoneno = '';
+        }
+
+
+        setErrors(newErrors);
+
+        if (!hasErrors) {
+            const formData = new FormData();
+            formData.append("company", iscar ? selectedcar : selectedbike);
+            formData.append("vehicle_type", selectedtype);
+            formData.append("phoneno", regphoneno);
+            formData.append("area", city);
+            formData.append("Registrationno", Registrationno);
+            formData.append("vehicle_RC", vehiclerc);
+            formData.append("photo_1", image1);
+            formData.append("photo_2", image2);
+            formData.append("photo_3", image3);
+            formData.append("Description", Desc);
+            formData.append("upload_by", userData.email);
+
+            const url = iscar ? "http://127.0.0.1:8000/firstapp/carpost/" : "http://127.0.0.1:8000/firstapp/bikepost/";
+            axios.post(url, formData)
+                .then((resp) => {
+                    alert("Post is created successfully");
+                    setcpost(true);
+                })
+                .catch((error) => {
+                    alert("Something went wrong or registration number already exists with us");
+                });
+        }
     }
-       else{
-        axios.post("http://127.0.0.1:8000/firstapp/bikepost/",bikeform).then((resp)=>{
-        alert("Post is created Sucessfully")
-        setcpost(true);
-       })
-       .catch((error)=>{
-        alert("Something went worng or registartionNo allready existing with us\uD83D\uDE15")
-       });
-    }
-    }
-    const bikeclick=()=>{
+
+    const bikeclick = () => {
         setiscar(false);
     }
-    const carclick=()=>{
+
+    const carclick = () => {
         setiscar(true);
     }
-    if (cpost){ return <AvailableVehicles/>;  }
 
-    if (gocreatepost) { return <AvailableVehicles />;}
-    
-    return(
-        <div className="carcontent">
+    if (cpost) { return <AvailableVehicles />; }
+
+    if (gocreatepost) { return <AvailableVehicles />; }
+
+    return (
+        <div className={`carcontent ${Object.values(errors).some(err => err !== '') ? 'error-border' : ''}`}>
             <div className="backbutton">
-                <span onClick={()=>{setgocreatepost(true)}}><FaArrowLeft />Back</span>
+                <span onClick={() => { setgocreatepost(true) }}><FaArrowLeft />Back</span>
             </div>
-            {iscar ?(
-            <div>         
-            <label>Car Brand:</label>
-            <select id="car" name="car" onChange={(event)=>{setselectedcar(event.target.value)}} value={selectedcar}>
+            {iscar ? (
+                <div>
+                    <div className="error">{errors.selectedcar}</div>
+                    <label>Car Brand:</label>
+                    <select id="car" name="car" onChange={(event)=>{setselectedcar(event.target.value)}} value={selectedcar}>
             <option value="" disabled>Select Brand</option>
             <option value={"Ford"}>Ford</option>
             <option value={"Volva"}>volvo</option>
             <option value={"Honda"}>Honda</option>
             <option value={"Hyundai"}>Hyundai</option>
-            <option value={"Kia"}>kia</option>
-            <option value={"Mahindra"}>Mahindra</option>
             <option value={"Maruti"}>Maruti</option>
             <option value={"Renault"}>Renault</option>
             <option value={"Tata"}>Tata</option>
             <option value={"Toyota"}>Toyota</option>
             <option value={"Volkswagen"}>Volkswagen</option>
             </select><br></br><br></br>
-            <label>Type:</label>
-            <select id='type' name='type' onChange={(event)=>{setselectedtype(event.target.value)}} value={selectedtype}>
+            <div className="error">{errors.selectedtype}</div>
+                    <label>Type:</label>
+                <select id='type' name='type' onChange={(event)=>{setselectedtype(event.target.value)}} value={selectedtype}>
                 <option value="" disabled>Select Type</option>
                 <option value={"Diesel"}>Diesel</option>
                 <option value={"Petrol"}>Petrol</option>
+                <option value={"CNG"}>CNG</option>
+                <option value={"Electrical"}>Electrical</option>
             </select><br></br><br></br>
-            </div> 
-            ):(
-            <div>
-            <label>Bike Brand:</label>
+                </div>
+            ) : (
+                <div>
+                <div className="error">{errors.selectedcar}</div>
+                <label>Bike Brand:</label>
             <select id="bike" name="bike" onChange={(event)=>{setselectedbike(event.target.value)}} value={selectedbike}>
             <option value="" disabled>Select Brand</option>
             <option value={"Bajaj"}>Bajaj</option>
             <option value={"Hero_Motor"}>Hero Motor</option>
+            <option value={"OLA"}>OLA</option>
+            <option value={"Ather"}>Ather</option>
             <option value={"Honda"}>Honda</option>
             <option value={"Kawasaki"}>Kawasaki</option>
             <option value={"KTM"}>KTM</option>
@@ -128,16 +189,29 @@ function CreatePost(){
             <option value={"TVS_Motor"}>TVS Motor</option>
             <option value={"Yamaha"}>Yamaha</option>
             </select><br></br><br></br>
-            </div>   
+            <div className="error">{errors.selectedtype}</div>
+            <label>Type:</label>
+                <select id='type' name='type' onChange={(event)=>{setselectedtype(event.target.value)}} value={selectedtype}>
+                <option value="" disabled>Select Type</option>
+                <option value={"Petrol"}>Petrol</option>
+                <option value={"Electrical"}>Electrical</option></select><br/><br/>
+                </div>
             )}
+            <div className="error">{errors.city}</div>
             <input type="text" placeholder="Enter Your city" onChange={(event)=>{setcity(event.target.value)}}/><br></br><br></br>
+            <div className="error">{errors.Registrationno}</div>
             <input type="text" placeholder="Registration No" onChange={(event)=>{setRegistrationno(event.target.value)}}/><br></br><br></br>
+            <div className="error">{errors.regphoneno}</div>
             <input type="text" placeholder="PhoneNo with out country code" onChange={(event)=>{setregphoneno(event.target.value)}}/><br></br><br></br>
             <label>Vehicle RC</label><br></br>
+            <div className="error">{errors.vehiclerc}</div>
             <input type="file" name="RCphoto" accept="image/*" onChange={(event)=>{setvehiclerc(event.target.files[0])}}/><br></br>
             <label>Vehicle Images</label>
+            <div className="error">{errors.image1}</div>
             <input type="file" name="pic1" accept="image/*" onChange={(event)=>{setimage1(event.target.files[0])}}/><br></br>
+            <div className="error">{errors.image2}</div>
             <input type="file" name="pic2" accept="image/*" onChange={(event)=>{setimage2(event.target.files[0])}}/><br></br>
+            <div className="error">{errors.image3}</div>
             <input type="file" name="Pic3" accept="image/*" onChange={(event)=>{setimage3(event.target.files[0])}}/><br></br> 
             <center><Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -153,3 +227,4 @@ function CreatePost(){
     );
 };
 export default CreatePost;
+
