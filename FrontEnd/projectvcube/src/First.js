@@ -15,7 +15,7 @@ function First(){
   };
 
     return (
-      <>
+      <div style={{backgroundColor:'white'}}>
         <div className='corosol1'>
           <Carousel style={{ maxWidth: '100%', maxHeight: '600px', position: 'relative' }} activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
@@ -129,7 +129,7 @@ function First(){
         </video>
         </center>
       </div>
-      </>
+      </div>
     );
 }
 

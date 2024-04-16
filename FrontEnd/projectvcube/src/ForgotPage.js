@@ -5,6 +5,7 @@ import axios from 'axios';
 import OtpValidation from './OtpValidation';
 import LoginPage from './LoginPage';
 
+
 function ForgotPage() {
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
@@ -15,7 +16,6 @@ function ForgotPage() {
             setError('Please enter a valid email address');
             return;
         }
-
         setError('');
         <OtpValidation />
         axios.post('http://127.0.0.1:8000/firstapp/forgot/', { 'email': email })

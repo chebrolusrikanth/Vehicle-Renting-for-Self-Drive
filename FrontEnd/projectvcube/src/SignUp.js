@@ -4,7 +4,6 @@ import axios from 'axios';
 import LoginPage from './LoginPage';
 import { FaArrowLeft } from 'react-icons/fa';
 
-
 const SignUp = () => {
     const [formData, setFormData] = useState({
         firstName: '',
@@ -18,13 +17,21 @@ const SignUp = () => {
     const [submitted, setSubmitted] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [errors, setErrors] = useState({});
-    const [backtologin, setbacktologin] = useState(false);
+    const [backToLogin, setBackToLogin] = useState(false);
     
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        let truncatedValue = value;
+
+        if (name === 'phone' && value.length > 10) {
+            truncatedValue = value.slice(0, 10); 
+        } else if (name === 'password' && value.length > 15) {
+            truncatedValue = value.slice(0, 10); 
+        }
+
         setFormData({
             ...formData,
-            [name]: value
+            [name]: truncatedValue
         });
     };
     
@@ -70,17 +77,17 @@ const SignUp = () => {
         let errors = {};
         let formIsValid = true;
     
-        if (!formData.firstName) {
+        if (!formData.firstName.trim()) {
             formIsValid = false;
             errors["firstName"] = "Please enter your first name.";
         }
     
-        if (!formData.lastName) {
+        if (!formData.lastName.trim()) {
             formIsValid = false;
             errors["lastName"] = "Please enter your last name.";
         }
     
-        if (!formData.email) {
+        if (!formData.email.trim()) {
             formIsValid = false;
             errors["email"] = "Please enter your email address.";
         }
@@ -114,15 +121,19 @@ const SignUp = () => {
         return formIsValid;
     };
 
-    if (submitted) { return <LoginPage />; }
+    if (submitted) {
+        return <LoginPage />;
+    }
 
-    if (backtologin) { return < LoginPage/>; }
+    if (backToLogin) {
+        return <LoginPage />;
+    }
 
     return (
         <div className="sign-up-container">
             <div className="backbutton">
                 <FaArrowLeft />
-                <strong><span onClick={()=>{setbacktologin(true)}}>Back</span></strong>
+                <strong><span onClick={()=>{setBackToLogin(true)}}>Back</span></strong>
             </div>
             <div className="form-container">
                 <center>
@@ -161,3 +172,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+

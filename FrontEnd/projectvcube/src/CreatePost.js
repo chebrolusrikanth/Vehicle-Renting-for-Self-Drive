@@ -127,6 +127,7 @@ function CreatePost() {
                 });
         }
     }
+    
 
     const bikeclick = () => {
         setiscar(false);
@@ -200,9 +201,9 @@ function CreatePost() {
             <div className="error">{errors.city}</div>
             <input type="text" placeholder="Enter Your city" onChange={(event)=>{setcity(event.target.value)}}/><br></br><br></br>
             <div className="error">{errors.Registrationno}</div>
-            <input type="text" placeholder="Registration No" onChange={(event)=>{setRegistrationno(event.target.value)}}/><br></br><br></br>
+            <input type="text" placeholder="Registration No" onChange={(event)=>{setRegistrationno(event.target.value)}} maxlength="10" /><br></br><br></br>
             <div className="error">{errors.regphoneno}</div>
-            <input type="text" placeholder="PhoneNo with out country code" onChange={(event)=>{setregphoneno(event.target.value)}}/><br></br><br></br>
+            <input type="text" placeholder="PhoneNo with out country code" onChange={(event)=>{setregphoneno(event.target.value)}} maxlength="10" /><br></br><br></br>
             <label>Vehicle RC</label><br></br>
             <div className="error">{errors.vehiclerc}</div>
             <input type="file" name="RCphoto" accept="image/*" onChange={(event)=>{setvehiclerc(event.target.files[0])}}/><br></br>
@@ -227,4 +228,3 @@ function CreatePost() {
     );
 };
 export default CreatePost;
-

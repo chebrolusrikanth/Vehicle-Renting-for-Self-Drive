@@ -18,7 +18,6 @@ import AvailableVehicles from './AvailableVehicles';
 import AboutUS from './AboutUS';
 import ContactUs from './ContactUs';
 import DashBoard from './DashBoard';
-import FullDetails from './FullDetails';
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
