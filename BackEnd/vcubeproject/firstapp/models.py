@@ -30,6 +30,13 @@ class cars(models.Model):
     
     def __str__(self):
         return self.company
+    
+    def delete(self):
+        self.vehicle_RC.delete()
+        self.photo_1.delete()
+        self.photo_2.delete()
+        self.photo_3.delete()
+        super().delete()
 
 class bikes(models.Model):
     company=models.CharField(max_length=30)
@@ -46,6 +53,13 @@ class bikes(models.Model):
 
     def __str__(self):
         return self.company
+    
+    def delete(self):
+        self.vehicle_RC.delete()
+        self.photo_1.delete()
+        self.photo_2.delete()
+        self.photo_3.delete()
+        super().delete()
 
 class contactme(models.Model):
     name=models.CharField(max_length=30)
